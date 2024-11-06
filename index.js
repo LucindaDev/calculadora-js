@@ -13,7 +13,7 @@ buttons.forEach(button => {
         if (button.id === "btn-igual") {
             console.log(screen.textContent);
             try {
-                if(screen.textContent === "222+222"){
+                if (screen.textContent === "222+222") {
                     confetti();
                 }
                 screen.textContent = eval(screen.textContent);
@@ -22,7 +22,7 @@ buttons.forEach(button => {
                 console.log(e);
                 screen.textContent = "Error!";
 
-                switchButtons(true,"btn-c","btn-ce");
+                switchButtons(true, "btn-c", "btn-ce");
             }
 
             return;
@@ -32,7 +32,7 @@ buttons.forEach(button => {
         if (button.id === "btn-c") {
             screen.textContent = "0";
 
-            switchButtons(false,"btn-c");
+            switchButtons(false, "btn-c");
 
             return;
         };
@@ -56,7 +56,7 @@ buttons.forEach(button => {
         if (screen.textContent.length > 10) {
             screen.textContent = "EEEE"
 
-                switchButtons(true,"btn-c","btn-ce");
+            switchButtons(true, "btn-c", "btn-ce");
         };
 
     });
@@ -64,16 +64,17 @@ buttons.forEach(button => {
 
 const switchButtons = (state, ignoreBtn1, ignoreBtn2) => {
     buttons.forEach(button => {
-        if(button.id === ignoreBtn1){
+        if (button.id === ignoreBtn1) {
             return;
         }
-        if(button.id === ignoreBtn2){
+        if (button.id === ignoreBtn2) {
             return;
         }
-        
+
         button.disabled = state;
     });
 };
+
 
 const ingresarDigitos = (btnSelected) => {
     if (screen.textContent === "0") {
@@ -87,3 +88,75 @@ const ingresarDigitos = (btnSelected) => {
         }
     };
 }
+
+
+document.addEventListener("keydown", function (e) {
+    const availableKeys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ".", "+", "-", "/", "*", "Backspace", "Enter", "Escape"];
+    const actionKeys = ["Backspace", "Enter", "Escape"]
+
+    // Verifica si el texto de la pantalla es "EEEE"
+    if (screen.textContent === "EEEE") {
+        // Solo permite "Backspace" y "Escape" cuando la pantalla muestra "EEEE"
+        if (e.key === "Backspace" || e.key === "Escape") {
+            if (e.key === "Backspace") {
+                screen.textContent = "0";
+                switchButtons(false);
+            } else if (e.key === "Escape") {
+                screen.textContent = "0";
+                switchButtons(false, "btn-c");
+            }
+        }
+        // Previene todas las demás teclas cuando está en el estado "EEEE"
+        return;
+    }
+
+    if (!availableKeys.includes(e.key)) {
+        return;
+    }
+
+    if (!actionKeys.includes(e.key)) {
+        ingresarDigitos(e.key);
+    }
+
+    if (e.key === "Enter") {
+        try {
+            if (screen.textContent === "222+222") {
+                confetti();
+            }
+            screen.textContent = eval(screen.textContent);
+            isResult = true;
+        } catch (e) {
+            console.log(e);
+            screen.textContent = "Error!";
+
+            switchButtons(true, "btn-c", "btn-ce");
+        }
+
+        return;
+    };
+
+    if (e.key === "Backspace") {
+        if (screen.textContent.length === 1 || screen.textContent === "Error!" || screen.textContent === "EEEE") {
+            screen.textContent = "0";
+            switchButtons(false);
+        } else {
+            screen.textContent = screen.textContent.slice(0, -1);
+        }
+        return;
+    }
+
+    if (e.key === "Escape") {
+        screen.textContent = "0";
+
+        switchButtons(false, "btn-c");
+
+        return;
+    };
+
+    if (screen.textContent.length > 10) {
+        screen.textContent = "EEEE"
+
+        switchButtons(true, "btn-c", "btn-ce");
+    };
+
+});
