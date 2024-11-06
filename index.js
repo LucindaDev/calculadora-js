@@ -7,6 +7,7 @@ buttons.forEach(button => {
     button.addEventListener("click", () => {
         const btnSelected = button.textContent;
 
+        //#region Btn Igual.
         if (button.id === "btn-igual") {
             console.log(screen.textContent);
             try {
@@ -20,16 +21,16 @@ buttons.forEach(button => {
             return;
         }
 
+        //#region Btn C para reiniciar.
         if (button.id === "btn-c") {
             screen.textContent = "0";
 
-            buttons.forEach(button => {
-                button.disabled = false;
-            });
+            switchButtons(false);
 
             return;
         };
-        
+
+        //#region Btn CE para borrar.
         if (button.id === "btn-ce") {
             if (screen.textContent.length === 1 || screen.textContent === "Error!") {
                 screen.textContent = "0";
@@ -39,10 +40,12 @@ buttons.forEach(button => {
             return;
         }
 
+
+        //#region Estado inicial y agregar dígitos.
         if (screen.textContent === "0") {
             screen.textContent = btnSelected;
         } else {
-            if(isResult == true){
+            if (isResult == true) {
                 screen.textContent = btnSelected;
                 isResult = false;
             } else {
@@ -50,15 +53,20 @@ buttons.forEach(button => {
             }
         }
 
+        //#region Validación límite de dígitos.
         if (screen.textContent.length > 10) {
             screen.textContent = "EEEE"
 
-            buttons.forEach(button => {
-                if (button.id !== "btn-c") {
-                    button.disabled = true;
-                }
-            });
+            if (button.id !== "btn-c") {
+                switchButtons(true);
+            }
         }
 
     })
-})
+});
+
+const switchButtons = (state) => {
+    buttons.forEach(button => {
+        button.disabled = state;
+    });
+}
