@@ -62,6 +62,8 @@ buttons.forEach(button => {
     });
 });
 
+
+        //#region Función estado para botones.
 const switchButtons = (state, ignoreBtn1, ignoreBtn2) => {
     buttons.forEach(button => {
         if (button.id === ignoreBtn1) {
@@ -76,6 +78,7 @@ const switchButtons = (state, ignoreBtn1, ignoreBtn2) => {
 };
 
 
+        //#region Función agregar dígitos.
 const ingresarDigitos = (btnSelected) => {
     if (screen.textContent === "0") {
         screen.textContent = btnSelected;
@@ -90,6 +93,7 @@ const ingresarDigitos = (btnSelected) => {
 }
 
 
+        //#region Lógica para teclado.
 document.addEventListener("keydown", function (e) {
     const availableKeys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ".", "+", "-", "/", "*", "Backspace", "Enter", "Escape"];
     const actionKeys = ["Backspace", "Enter", "Escape"]
@@ -118,6 +122,8 @@ document.addEventListener("keydown", function (e) {
         ingresarDigitos(e.key);
     }
 
+    
+        //#region Tecla Enter.
     if (e.key === "Enter") {
         try {
             if (screen.textContent === "222+222") {
@@ -135,6 +141,7 @@ document.addEventListener("keydown", function (e) {
         return;
     };
 
+            //#region Tecla Backspace.
     if (e.key === "Backspace") {
         if (screen.textContent.length === 1 || screen.textContent === "Error!" || screen.textContent === "EEEE") {
             screen.textContent = "0";
@@ -145,6 +152,7 @@ document.addEventListener("keydown", function (e) {
         return;
     }
 
+            //#region Tecla Escape.
     if (e.key === "Escape") {
         screen.textContent = "0";
 
@@ -153,6 +161,7 @@ document.addEventListener("keydown", function (e) {
         return;
     };
 
+            //#region Límite de dígitos.
     if (screen.textContent.length > 10) {
         screen.textContent = "EEEE"
 
