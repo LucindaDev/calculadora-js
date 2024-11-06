@@ -1,6 +1,7 @@
 
 const screen = document.querySelector(".calc__pantalla")
 const buttons = document.querySelectorAll(".calc__button");
+let isResult = false;
 
 buttons.forEach(button => {
     button.addEventListener("click", () => {
@@ -10,11 +11,7 @@ buttons.forEach(button => {
             console.log(screen.textContent);
             try {
                 screen.textContent = eval(screen.textContent);
-                buttons.forEach(button => {
-                    if (button.id !== "btn-c") {
-                        button.disabled = true;
-                    }
-                });
+                isResult = true;
             } catch (e) {
                 console.log(e);
                 screen.textContent = "Error!";
@@ -45,10 +42,15 @@ buttons.forEach(button => {
         if (screen.textContent === "0") {
             screen.textContent = btnSelected;
         } else {
-            screen.textContent += btnSelected;
+            if(isResult == true){
+                screen.textContent = btnSelected;
+                isResult = false;
+            } else {
+                screen.textContent += btnSelected;
+            }
         }
 
-        if (screen.textContent.length >= 10) {
+        if (screen.textContent.length > 10) {
             screen.textContent = "EEEE"
 
             buttons.forEach(button => {
