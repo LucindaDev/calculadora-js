@@ -1,3 +1,5 @@
+import confetti from 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.module.mjs';
+
 
 const screen = document.querySelector(".calc__pantalla")
 const buttons = document.querySelectorAll(".calc__button");
@@ -11,6 +13,9 @@ buttons.forEach(button => {
         if (button.id === "btn-igual") {
             console.log(screen.textContent);
             try {
+                if(screen.textContent === "222+222"){
+                    confetti();
+                }
                 screen.textContent = eval(screen.textContent);
                 isResult = true;
             } catch (e) {
